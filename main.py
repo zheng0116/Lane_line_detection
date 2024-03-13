@@ -93,9 +93,7 @@ class AroadApp(QMainWindow):
         if self.file_path and self.file_path.endswith('.mp4'):
             self.video_capture = cv2.VideoCapture(self.file_path)
             self.is_video_playing = True
-            self.timer.start(30)  # Update with desired frame rate
-
-
+            self.timer.start(30)  
 
     def save_result(self):
         if self.file_path:

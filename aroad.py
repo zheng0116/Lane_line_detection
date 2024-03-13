@@ -35,36 +35,25 @@ class LaneDetection:
         self.x2R = x2R
 
     def __call__(self, img):
-
         gauss = self._image_preprocess(img)
-
         edge = self._edge_canny(gauss)
-
         roi = self._roi_trapezoid(edge)
-
         lines = self._Hough_line_fitting(roi)
-
         line_img = self._lane_line_fitting(img, lines)
-
         res = self._weighted_img_lines(img, line_img)
-
         return res
 
     def _image_preprocess(self, img):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gauss = cv2.GaussianBlur(gray, self.ksize, self.sigma[0], self.sigma[1])
-
         return gauss
 
     def _edge_canny(self, img):
         edge = cv2.Canny(img, self.threshold1, self.threshold2, self.aperture_size)
-
         return edge
 
     def _roi_trapezoid(self, img):
-
         h, w = img.shape[:2]
-
         # 车方向的中心点
         if self.direction_point is None:
             left_top = [w//2, h//2]
@@ -72,15 +61,12 @@ class LaneDetection:
         else:
             left_top = self.direction_point
             right_top = self.direction_point
-
         left_down = [int(w * 0.1), h]
         right_down = [int(w * 0.9), h]
         self.roi_points = np.array([left_down, left_top, right_top, right_down])
-
         # 填充梯形区域
         mask = np.zeros((h, w), dtype=np.uint8)
         cv2.fillConvexPoly(mask, self.roi_points, 255)
-
         # 目标区域提取：逻辑与
         roi = cv2.bitwise_and(img, mask)
 
@@ -131,14 +117,17 @@ class LaneDetection:
             y2R = int(right_line(x2R))
             cv2.line(line_img, (x1R, y1R), (x2R, y2R), (0, 0, 255), thickness)
         return line_img
+    
     def _weighted_img_lines(self, img, line_img, α=1, β=1, λ=0.):
         res = cv2.addWeighted(img, α, line_img, β, λ)
         return res
+    
 def parse_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-i", "--input_path", type=str, default="", help="Input path of image.")
     parser.add_argument("-o", "--output_path", type=str, default="", help="Ouput path of image.")
     return parser.parse_args()
+
 def main():
     args = parse_args()
     lanedetection = LaneDetection()
@@ -178,8 +167,6 @@ def main():
         out.release()
         cv2.destroyAllWindows()
     cv2.waitKey(0)
-
-
 
 if __name__ == "__main__":
     main()
