@@ -7,7 +7,7 @@ from aroad import LaneDetection
 class AroadApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("基于自动驾驶的车道线检测系统")
+        self.setWindowTitle("Lane Line Detection System")
         self.setGeometry(100, 100, 800, 600)
         self.setStyleSheet("""
             AroadApp {
