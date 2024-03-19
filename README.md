@@ -1,5 +1,4 @@
 # Lane_Line_ Detection
-  ***
   ## Deployed Environment
   - python3.8 
   - opencv-python 
