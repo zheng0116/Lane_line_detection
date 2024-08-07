@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBo
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt, QTimer
 import cv2
-from aroad import LaneDetection
+from lane_detect import LaneDetection
 class AroadApp(QMainWindow):
     def __init__(self):
         super().__init__()
